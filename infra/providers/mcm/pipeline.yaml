@@ -1,0 +1,46 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  annotations:
+    app.openshift.io/runtime: python
+  name: mcm-providers-pipeline
+spec:
+  params:
+    - name: source-repo
+      type: string
+      description: Source code repository
+    - name: commit
+      type: string
+      description: The precise SHA of the most recent commit
+      default: ""
+  workspaces:
+    - name: mcm-pipeline-shared-data
+      description: |
+        This workspace stores the cloned repository and is available to all steps
+  tasks:
+    - name: clone-repository
+      params:
+        - name: url
+          value: "$(params.source-repo)"
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: mcm-pipeline-shared-data
+    - name: mcm-providers 
+      taskRef:
+        kind: Task
+        name: mcm-providers
+      workspaces:
+        - name: source
+          workspace: mcm-pipeline-shared-data
+      params:
+        - name: cam_host 
+          value: "cam.aiops-mcm-asset-hub-1957c4c7f8f7afe75e4976f3d7405e31-0000.au-syd.containers.appdomain.cloud"
+        - name:  mcm_host 
+          value: "cp-console.aiops-mcm-asset-hub-1957c4c7f8f7afe75e4976f3d7405e31-0000.au-syd.containers.appdomain.cloud"
+        - name: tenant 
+          value: "aee6efd2-321f-48f0-9bc3-3dbcf00797a6"
+      runAfter:
+        - clone-repository

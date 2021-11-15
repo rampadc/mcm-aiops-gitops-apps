@@ -1,0 +1,66 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: mcm-ansible-gitops
+  labels:
+    app.kubernetes.io/version: '0.1'
+    app.kubernetes.io/ansible-version: '2.9.20'
+    app.kubernetes.io/ansible-k8s-version: '0.11.0'
+  annotations:
+    tekton.dev/pipelines.minVersion: '0.12.1'
+    tekton.dev/categories: CLI
+    tekton.dev/tags: cli
+    tekton.dev/displayName: 'Ansible'
+spec:
+  description: >-
+    Task to run Ansible playbooks post mcm deployment
+
+  workspaces:
+    - name: runner-dir
+      description: The Ansible runner directory
+  params:
+    - name: project-dir
+      description: The project directory under the workspace runner-dir
+      default: 'project'
+    - name: user-home
+      description: Absolute path to the user's home directory.
+      default: /tekton/home
+  stepTemplate:
+    env:
+      - name: HOME
+        value: $(params.user-home)
+  steps:
+    - name: run-playbook
+      image: quay.io/ansible/ansible-runner:latest
+      script: |
+        #!/bin/sh
+        mkdir -p /tekton/home/.ssh
+        echo "ansible:x:$(id -u):$(id -g)::$/tekton/home:/bin/false" >> /etc/passwd        
+
+        #iterate through each new deployment in deploy.log
+        while read line; do
+           echo "Running playbooks for $line"
+           playbooks=`ls ./$line/ansible/*.yaml`
+           if [ -z "${DECRYPT_PASS}" ]; then
+              if [ -f ./$line/ansible/.vault.txt ]; then
+                  #export just this file name as ansible runner effectively cds to the folder its contained in
+                  export ANSIBLE_VAULT_PASSWORD_FILE=.vault.txt
+              else
+                  echo "no decryption password supplied"
+                  exit 1
+              fi
+           else
+              ANSIBLE_VAULT_PASSWORD_FILE=${DECRYPT_PASS}
+           fi
+
+           for filename in $playbooks
+           do
+
+             file="$(basename -- $filename)"
+             echo $file
+             echo "------------"
+             ansible-runner run $line/ansible --playbook $file
+           done
+        done < deploy.log
+      workingDir: '$(workspaces.runner-dir.path)'

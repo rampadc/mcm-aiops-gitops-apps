@@ -1,0 +1,30 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: mcm-gitops-trigger
+spec:
+  params:
+    - name: source-repo
+      description: The git repository url
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: mcm-gitops-pipeline-run-
+      spec:
+        serviceAccountName: build-bot
+        pipelineRef:
+          name: mcm-gitops-pipeline
+        params:
+          - name: source-repo
+            value: $(tt.params.source-repo)
+        workspaces:
+          - name: mcm-pipeline-shared-data
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 500Mi
+
