@@ -1,0 +1,11 @@
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: cluster-policies
+  namespace: openshift-gitops
+  labels:
+    app: cluster-policies
+spec:
+  clusterConditions:
+  - status: "True"
+    type: ManagedClusterConditionAvailable

@@ -1,0 +1,16 @@
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: ibm-cp4i-argocd
+  namespace: openshift-gitops
+  labels:
+    app: ibm-cp4i-argocd
+spec:
+  clusterConditions:
+  - status: "True"
+    type: ManagedClusterConditionAvailable
+  clusterSelector:
+    matchExpressions: []
+    matchLabels:
+      # Replace value with Cluster you wish to provision too.
+      name: aws-ireland

@@ -1,0 +1,12 @@
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  labels:
+    cloud: Amazon
+    region: {{ .Values.provider.region }}
+    name: '{{ .Values.cluster }}'
+    vendor: OpenShift
+    gitops: enabled
+  name: '{{ .Values.cluster }}'
+spec:
+  hubAcceptsClient: true
