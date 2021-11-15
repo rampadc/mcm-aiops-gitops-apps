@@ -1,0 +1,20 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: mcm-gitops-pipeline-run-
+spec:
+  params:
+    - name: source-repo
+      value: https://github.com/nickmerrett/mcm-gitops-templates
+  serviceAccountName: build-bot
+  pipelineRef:
+    name: mcm-gitops-pipeline
+  workspaces:
+    - name: mcm-pipeline-shared-data
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 500Mi

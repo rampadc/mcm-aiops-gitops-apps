@@ -1,0 +1,78 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: mcm-providers
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/categories: mcm
+    tekton.dev/tags: search
+spec:
+  description: >-
+    This task synchonises a folder of templates for mcm with an mcm instance
+  workspaces:
+  - name: source
+    description: The workspace containing the templates
+  params:
+  - name: cam_host 
+    description: cam hostname or ip
+    type: string
+    default: ""
+  - name: mcm_host
+    description: mcm hostname or ip for getting an access token, user and pass need to be passed in via secret
+    type: string
+    default: ""
+  - name:  tenant 
+    description: cam tenant id
+    type: string
+    default: ""
+  - name:  team 
+    description: cam team id
+    type: string
+    default: "all"
+  - name:  namespace
+    description: cam namespace
+    type: string
+    default: "default"
+
+  - name: mcm-providers-image
+    description: image to use with logic to sync directory and mcm
+    type: string
+    default: "quay.io/nickmerrett/mcm-providers:latest" #tag: latest
+  steps:
+  - name: mcm-providers 
+    image: "$(params.mcm-providers-image)"
+    workingDir: $(workspaces.source.path)
+    env:
+    - name: TSA_PASS
+      valueFrom:
+        secretKeyRef:
+          name: mcm-gitops
+          key: password
+    - name: TSA_USER
+      valueFrom:
+        secretKeyRef:
+          name: mcm-gitops
+          key: user
+    - name: DECRYPT_PASS 
+      valueFrom:
+        secretKeyRef:
+          name: mcm-gitops
+          key: decrypt_pass
+    - name: TSA_HOSTNAME 
+      value: $(params.cam_host)
+    - name: MCM_CLUSTER_HOSTNAME 
+      value: $(params.mcm_host)
+    - name: TSA_TENANT_ID
+      value: $(params.tenant)
+    - name: MCM_TEAM
+      value: $(params.team)
+    - name: NAMESPACE
+      value: $(params.namespace)
+
+    command: 
+      - python3 
+    args: 
+      - -u 
+      - /usr/src/mcm-providers.py
