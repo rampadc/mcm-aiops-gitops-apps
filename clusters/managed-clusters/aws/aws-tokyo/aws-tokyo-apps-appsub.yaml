@@ -6,6 +6,8 @@ metadata:
     apps.open-cluster-management.io/github-branch: aiops-3.2
     apps.open-cluster-management.io/reconcile-option: replace
   name: managedcluster-aws-tokyo
+  labels:
+    app: managedcluster-aws-tokyo
 spec:
   channel: managedcluster-configs/managedcluster-aws-tokyo
   placement:
