@@ -7,7 +7,7 @@ metadata:
     apps.open-cluster-management.io/reconcile-option: replace
   name: managedcluster-aws-tokyo
 spec:
-  channel: openshift-gitops/managedcluster-aws-tokyo
+  channel: managedcluster-configs/managedcluster-aws-tokyo
   placement:
     placementRef:
       name: managedcluster-aws-tokyo
