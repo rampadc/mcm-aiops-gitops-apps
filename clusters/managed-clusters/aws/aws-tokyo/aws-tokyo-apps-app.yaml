@@ -1,7 +1,7 @@
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
-  name: managed-aws-tokyo-apps
+  name: managedcluster-aws-tokyo
 spec: {}
 #  componentKinds:
 #    - group: apps.open-cluster-management.io

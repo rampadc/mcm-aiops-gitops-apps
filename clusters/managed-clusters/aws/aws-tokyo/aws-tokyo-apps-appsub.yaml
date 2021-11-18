@@ -4,10 +4,10 @@ metadata:
   annotations:
     apps.open-cluster-management.io/github-path: clusters/cluster-build/aws/aws-tokyo 
     apps.open-cluster-management.io/reconcile-option: replace
-  name: managed-aws-tokyo-apps
+  name: managedcluster-aws-tokyo
 spec:
-  channel: openshift-gitops/aws-tokyo-apps
+  channel: openshift-gitops/managedcluster-aws-tokyo
   placement:
     placementRef:
-      name: managed-aws-tokyo-apps
+      name: managedcluster-aws-tokyo
       kind: PlacementRule

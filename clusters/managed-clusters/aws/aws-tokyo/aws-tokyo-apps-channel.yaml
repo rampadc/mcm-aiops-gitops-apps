@@ -1,7 +1,7 @@
 apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
 metadata:
-  name: managed-aws-tokyo-apps
+  name: managedcluster-aws-tokyo
 spec:
   type: Git
   pathname: https://github.com/mcm-aiops-gitops-asset/mcm-aiops-gitops-apps
