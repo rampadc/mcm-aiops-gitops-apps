@@ -9,7 +9,7 @@ spec:
   descriptor: {}
   selector:
     matchExpressions:
-      - key: app
+      - key: name
         operator: In
         values:
-          - apps-cluster-aws-tokyo
+          - managedcluster-aws-tokyo
