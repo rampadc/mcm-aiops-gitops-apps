@@ -8,5 +8,6 @@ metadata:
     vendor: OpenShift
     argocd: true
   name: '{{ .Values.cluster }}'
+  namespace: '{{ .Values.cluster }}' 
 spec:
   hubAcceptsClient: true
