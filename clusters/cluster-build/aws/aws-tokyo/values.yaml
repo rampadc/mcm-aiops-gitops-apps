@@ -1,4 +1,4 @@
-cluster: aws-cluster-jp
+cluster: aws-cluster-tokyo
 type: aws
 imageName: img4.8.19-x86-64-appsub
 
