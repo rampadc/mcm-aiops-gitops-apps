@@ -3,5 +3,6 @@ kind: PlacementRule
 metadata:
   name: managedcluster-aws-tokyo
 spec:
-  clusters:
-  - name: local-cluster
+  clusterSelector:
+    matchLabels:
+      local-cluster: 'true'
