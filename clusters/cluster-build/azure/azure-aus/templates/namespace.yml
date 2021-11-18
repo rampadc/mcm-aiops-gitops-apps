@@ -5,6 +5,3 @@ metadata:
     openshift.io/description: ""
     openshift.io/display-name: {{ .Values.cluster }}
   name: {{ .Values.cluster }}
-spec:
-  finalizers:
-  - kubernetes
