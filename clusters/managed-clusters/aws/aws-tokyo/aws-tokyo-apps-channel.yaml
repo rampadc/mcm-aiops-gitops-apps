@@ -4,4 +4,4 @@ metadata:
   name: managedcluster-aws-tokyo
 spec:
   type: Git
-  pathname: https://github.com/mcm-aiops-gitops-asset/mcm-aiops-gitops-apps
+  pathname: https://github.com/apac-showcase/mcm-aiops-gitops-apps
