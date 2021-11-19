@@ -13,4 +13,4 @@ spec:
     matchExpressions: []
     matchLabels:
       # Replace value with Cluster you wish to provision too.
-      name: aws-ireland
+      name: aws-cluster-tokyo
