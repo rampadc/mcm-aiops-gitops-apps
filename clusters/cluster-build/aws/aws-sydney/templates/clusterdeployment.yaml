@@ -8,7 +8,7 @@ metadata:
   labels:
     cloud: 'AWS'
     region: '{{ .Values.provider.region }}'
-    vendor: 'OpenShift'
+    vendor: OpenShift
 spec:
   baseDomain: {{ .Values.provider.baseDomain }}
   clusterName: '{{ .Values.cluster }}'

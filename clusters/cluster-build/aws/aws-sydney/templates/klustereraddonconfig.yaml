@@ -9,8 +9,8 @@ spec:
   clusterName: '{{ .Values.cluster }}'
   clusterNamespace: '{{ .Values.cluster }}'
   clusterLabels:
-    cloud: auto-detect
-    vendor: auto-detect
+    cloud: Amazon
+    vendor: OpenShift
   applicationManager:
     enabled: true
   policyController:
