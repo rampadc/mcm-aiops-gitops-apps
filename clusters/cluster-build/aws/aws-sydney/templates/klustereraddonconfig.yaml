@@ -2,6 +2,8 @@ apiVersion: agent.open-cluster-management.io/v1
 kind: KlusterletAddonConfig
 metadata:
   name: '{{ .Values.cluster }}'
+  annotations:
+    argocd.argoproj.io/sync-wave: "360"
   namespace: '{{ .Values.cluster }}'
 spec:
   clusterName: '{{ .Values.cluster }}'
@@ -19,4 +21,3 @@ spec:
     enabled: true
   iamPolicyController:
     enabled: true
-  version: 2.2.0
