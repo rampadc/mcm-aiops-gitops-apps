@@ -2,6 +2,8 @@ apiVersion: hive.openshift.io/v1
 kind: MachinePool
 metadata:
   name: {{ .Values.cluster }}-worker
+  annotations:
+    argocd.argoproj.io/sync-wave: "360"
   namespace: '{{ .Values.cluster }}'
 spec:
   clusterDeploymentRef:

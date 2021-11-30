@@ -9,4 +9,6 @@ metadata:
   # in the git repository, Argo CD displayed this object as out of sync. The purpose of this ManagedClusterInfo
   # object is to avoid Argo CD showing this object as out of sync.
   name: '{{ .Values.cluster }}'
+  annotations:
+    argocd.argoproj.io/sync-wave: "375"
   namespace: '{{ .Values.cluster }}'
